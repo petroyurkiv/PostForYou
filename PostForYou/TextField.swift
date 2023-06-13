@@ -23,7 +23,7 @@ class TextField: UITextField {
     
     private func confTextField() {
         placeholder = "Search"
-        textColor = .gray
+        textColor = Colors.subtitleColor
         layer.cornerRadius = 18
     }
     

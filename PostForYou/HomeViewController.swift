@@ -21,7 +21,7 @@ final class HomeViewController: UIViewController {
     
     private func configureBarView() {
         view.addSubview(bar)
-        bar.backgroundColor = .systemGray2
+        bar.backgroundColor = Colors.barColor
         bar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 46)
         bar.center = view.center
     }
@@ -30,7 +30,7 @@ final class HomeViewController: UIViewController {
         view.addSubview(searchBar)
         searchBar.frame = CGRect(x: 0, y: 0, width: view.frame.width - 32, height: 36)
         searchBar.center = view.center
-        searchBar.backgroundColor = .gray
+        searchBar.backgroundColor = Colors.texFieldColor
     }
 }
 
