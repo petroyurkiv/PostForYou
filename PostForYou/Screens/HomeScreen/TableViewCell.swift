@@ -9,16 +9,18 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     
-    static let identifier = "Cell"
+    static let identifier = "TableViewCell"
     
-    let bgImage = UIView()
+    private let backView = UIView()
+    private let messageView = UIView()
     let userIcon = UIImageView()
     let userName = UILabel()
     let text = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureBgImage()
+        configureBackView()
+        configureMessegeImage()
         configureUserIcon()
         configureUserName()
         configureText()
@@ -29,16 +31,29 @@ class TableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureBgImage() {
-        contentView.addSubview(bgImage)
-        bgImage.translatesAutoresizingMaskIntoConstraints = false
-        bgImage.backgroundColor = Colors.barColor
+    private func configureBackView() {
+        contentView.addSubview(backView)
+        backView.translatesAutoresizingMaskIntoConstraints = false
+        backView.backgroundColor = .white
         NSLayoutConstraint.activate([
-            bgImage.topAnchor.constraint(equalTo: topAnchor),
-            bgImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bgImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bgImage.bottomAnchor.constraint(equalTo: bottomAnchor)
+            backView.topAnchor.constraint(equalTo: topAnchor),
+            backView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            backView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            backView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+    }
+    
+    private func configureMessegeImage() {
+        contentView.addSubview(messageView)
+        messageView.translatesAutoresizingMaskIntoConstraints = false
+        messageView.backgroundColor = Colors.barColor
+        NSLayoutConstraint.activate([
+            messageView.topAnchor.constraint(equalTo: backView.topAnchor, constant: 2),
+            messageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: 4),
+            messageView.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -4),
+            messageView.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -2)
+        ])
+        messageView.layer.cornerRadius = 16
     }
     
     private func configureUserIcon() {
@@ -52,11 +67,13 @@ class TableViewCell: UITableViewCell {
             userIcon.widthAnchor.constraint(equalToConstant: 42)
         ])
         userIcon.layer.cornerRadius = 21
+        userIcon.clipsToBounds = true
     }
     
     private func configureUserName() {
         contentView.addSubview(userName)
         userName.translatesAutoresizingMaskIntoConstraints = false
+        userName.font = Fonts.normal(with: 14)
         userName.textColor = Colors.subtitleColor
         NSLayoutConstraint.activate([
             userName.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
@@ -67,7 +84,8 @@ class TableViewCell: UITableViewCell {
     private func configureText() {
         contentView.addSubview(text)
         text.translatesAutoresizingMaskIntoConstraints = false
-        text.textColor = .red
+        text.font = Fonts.normal(with: 16)
+        text.textColor = Colors.titleColor
         text.numberOfLines = 0
         NSLayoutConstraint.activate([
             text.topAnchor.constraint(equalTo: userName.bottomAnchor, constant: 4),

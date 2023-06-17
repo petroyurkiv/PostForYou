@@ -15,10 +15,22 @@ final class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        title = "Home"
+        configureNavigationBar()
         configureBarView()
         configureSearchBar()
-        configureCollectionView()
+        configureTableView()
+        fetchData()
+    }
+    
+    func fetchData() {
+        NetworkService.fetchData()
+    }
+    
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.backgroundColor = Colors.titleColor
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.barColor]
     }
     
     private func configureBarView() {
@@ -35,12 +47,18 @@ final class HomeViewController: UIViewController {
         searchBar.backgroundColor = Colors.texFieldColor
     }
     
-    private func configureCollectionView() {
+    private func configureTableView() {
         view.addSubview(tableView)
-        tableView.backgroundColor = .red
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.identifier)
+        tableView.separatorColor = .white
+        tableView.backgroundColor = .white
+        tableView.showsVerticalScrollIndicator = false
+        setTableViewContraints()
+    }
+    
+    private func setTableViewContraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: bar.bottomAnchor),
@@ -52,7 +70,9 @@ final class HomeViewController: UIViewController {
 }
 
 extension HomeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        navigationController?.pushViewController(UserViewController(), animated: true)
+    }
 }
 
 extension HomeViewController: UITableViewDataSource {
