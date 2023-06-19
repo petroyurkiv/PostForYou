@@ -1,15 +1,15 @@
 //
-//  NetworkService.swift
+//  UsersService.swift
 //  PostForYou
 //
-//  Created by Petro on 17.06.2023.
+//  Created by Petro on 19.06.2023.
 //
 
 import Foundation
 
-enum NetworkService {
-    static func fetchData(completion: @escaping(([Post]) -> Void)) {
-        let url = URL(string: "https://jsonplaceholder.typicode.com/posts")
+enum UserService {
+    static func fetchUsers(completion: @escaping (([User]) -> Void)) {
+        let url = URL(string: "https://jsonplaceholder.typicode.com/users")
         
         var request = URLRequest(url: url!)
         request.httpMethod = "GET"
@@ -20,8 +20,9 @@ enum NetworkService {
             guard let data = data else { return }
             
             do {
-                let result = try JSONDecoder().decode([Post].self, from: data)
+                let result = try JSONDecoder().decode([User].self, from: data)
                 completion(result)
+                print(result)
             } catch {
                 print("\(error)")
             }

@@ -30,7 +30,6 @@ final class UserViewController: UIViewController {
     
     private func configureUserImage() {
         view.addSubview(userImage)
-        userImage.image = UIImage(named: "userImage")
         userImage.frame = CGRect(x: 0, y: 24, width: 128, height: 128)
         userImage.center.x = view.center.x
         userImage.layer.cornerRadius = 64
@@ -39,7 +38,6 @@ final class UserViewController: UIViewController {
     
     private func configureNameLabel() {
         view.addSubview(nameLabel)
-        nameLabel.text = "Bred"
         nameLabel.textColor = Colors.subtitleColor
         nameLabel.font = Fonts.normal(with: 18)
         setNameLabelContraints()

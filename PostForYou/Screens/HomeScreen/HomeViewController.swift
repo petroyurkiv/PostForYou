@@ -9,13 +9,22 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
-    var viewModel = HomeViewModel()
+    var viewModel: HomeViewModelProtocool
     
     var posts = [Post]()
     
     private let bar = UIView()
     private let searchBar = TextField()
     private var tableView = UITableView()
+    
+    init(viewModel: HomeViewModelProtocool) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +33,10 @@ final class HomeViewController: UIViewController {
         configureBarView()
         configureSearchBar()
         configureTableView()
+        
+        UserService.fetchUsers { user in
+            print(user)
+        }
         
         viewModel.onRefresh = { [weak self] posts in
             guard let self else { return }

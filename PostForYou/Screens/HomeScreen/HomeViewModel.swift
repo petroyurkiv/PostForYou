@@ -7,18 +7,22 @@
 
 import Foundation
 
-class HomeViewModel {
+protocol HomeViewModelProtocool {
+    var onRefresh: (([Post]) -> Void)? { get set }
+    func fetchData()
+}
+
+class HomeViewModel: HomeViewModelProtocool {
     var onRefresh: (([Post]) -> Void)?
-    
     var posts = [String]()
     
     func fetchData() {
-        NetworkService.fetchData { [weak self] result in
+        PostsService.fetchPosts { [weak self] result in
             guard let self else { return }
             
             DispatchQueue.main.async {
                 for element in result {
-                    print(element)
+//                    print(element)
                     self.posts.append(element.body)
                 }
                 
