@@ -8,7 +8,7 @@
 import Foundation
 
 enum NetworkService {
-    static func fetchData() {
+    static func fetchData(completion: @escaping(([Post]) -> Void)) {
         let url = URL(string: "https://jsonplaceholder.typicode.com/posts")
         
         var request = URLRequest(url: url!)
@@ -21,7 +21,7 @@ enum NetworkService {
             
             do {
                 let result = try JSONDecoder().decode([Post].self, from: data)
-                print(result)
+                completion(result)
             } catch {
                 print("\(error)")
             }

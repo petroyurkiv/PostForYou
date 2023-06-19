@@ -9,10 +9,14 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
+    var viewModel = HomeViewModel()
+    
+    var posts = [Post]()
+    
     private let bar = UIView()
     private let searchBar = TextField()
     private var tableView = UITableView()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Home"
@@ -20,13 +24,16 @@ final class HomeViewController: UIViewController {
         configureBarView()
         configureSearchBar()
         configureTableView()
-        fetchData()
+        
+        viewModel.onRefresh = { [weak self] posts in
+            guard let self else { return }
+            self.posts = posts
+            self.tableView.reloadData()
+        }
+        
+        viewModel.fetchData()
     }
-    
-    func fetchData() {
-        NetworkService.fetchData()
-    }
-    
+
     private func configureNavigationBar() {
         navigationController?.navigationBar.backgroundColor = Colors.titleColor
         navigationController?.navigationBar.isTranslucent = false
@@ -77,14 +84,15 @@ extension HomeViewController: UITableViewDelegate {
 
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        posts.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.identifier, for: indexPath) as! TableViewCell
+        let model = posts[indexPath.row]
         cell.userIcon.image = UIImage(named: "userImage")
         cell.userName.text = "Bred"
-        cell.text.text = "quia et suscipit nsuscipit recusandae consequuntur expedita et cum nreprehenderit molestiae ut ut quas totam nnostrum rerum est autem sunt rem eveniet architecto"
+        cell.text.text = model.body
         return cell
     }
 }
